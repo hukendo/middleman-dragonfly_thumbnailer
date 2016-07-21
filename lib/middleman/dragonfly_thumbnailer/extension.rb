@@ -26,8 +26,10 @@ module Middleman
 
       def thumb(path, geometry)
         absolute_path = absolute_source_path path
-        return unless File.exist?(absolute_path)
-
+        unless File.exist?(absolute_path)
+          logger.error "== File no found #{absolute_path}"
+          return
+        end
         image = ::Dragonfly.app.fetch_file(absolute_path)
         image.meta['original_path'] = path
         image.meta['geometry'] = geometry
